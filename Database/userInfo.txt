@@ -1,0 +1,5 @@
+Hovhannes | Zohrabyan | Delta@gmail.com | $2y$12$DBfI8pZDGGCSAwEGKCI4t.DEQTNrfvYOk/mgm6UqnpSXMkunyD2IC
+root | root | root@gmail.com | $2y$12$NXtiaGBRAijVc1QuZtCeNOvIGOeuzSUhKq7HmXlxk7LpYaG3tInMm
+Zorro | Zohrabyan | Zorro@gmail.com | $2y$12$sL6J0VSDKHv2Cn9NlweW5eiL1g9H/WjG4xK2Napuv3CP4s0WArpYy
+Hovhannes | Zohrabyan | Del@gmail.com | $2y$12$8BxGNNPo21B.H2dgfD6jWOLOuVKfySSH.ZIQkOAVa0kfwz6lte2Yq
+Someone | Someone | Someone@gmail.com | $2y$12$s9RnUjBkV22qwVM7ebXXy.cbZVMX6Tr1NNkBXZAsjctDKEiEegXsC
