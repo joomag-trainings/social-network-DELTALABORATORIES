@@ -1,16 +1,4 @@
-<?php
-
-require '../config/db.config.php';
-
-$conn = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-$sql = "SELECT `Name`,`ID` FROM `user_data`";
-$result = $conn->query($sql);
-
-echo '<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -68,21 +56,17 @@ echo '<!DOCTYPE html>
         font-family: Arial, Helvetica, sans-serif;
     }
 </style>
-<body>';
-
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        echo '<div class="ResultContainer">
-                    <img src="../../../Images/logo.jpg" class="UserPicture">
-                     <p class="SearchedUserName">' . $row['Name'] .
-            '</p>
-                 <form method="POST" action="SendFriendRequest.php">
-                     <button name="RequestReciever" class="SendRequest" type="submit" value = "' . $row['ID'] .'"> Send Friend Request</button>
-                 </form>
-              </div>';
-    }
-}
-echo '</div>
+<body>
+<div class="Main">
+    <div class="ResultContainer">
+        <img src="../../../Images/logo.jpg" class="UserPicture">
+        <p class="SearchedUserName">
+            <?php echo $_POST['FriendSearch'] ?>
+        </p>
+        <form method="POST">
+            <button class="SendRequest" type="submit"> Send Friend Request</button>
+        </form>
+    </div>
+</div>
 </body>
-</html>';
-$conn->close();
+</html>

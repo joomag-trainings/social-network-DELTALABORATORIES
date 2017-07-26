@@ -25,7 +25,7 @@ $options = [
 ];
 $passwordHashed = password_hash($password, PASSWORD_BCRYPT, $options);
 if (password_verify($_POST['logInPASSWORD'], $row['Password_Hash']) === true) {
-    echo 'it is OK';
+    header("Location:../timeline_page.html");
 } else {
     echo "Wrong Login Or Password";
 }
