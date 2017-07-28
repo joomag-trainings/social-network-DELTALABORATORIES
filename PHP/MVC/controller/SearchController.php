@@ -7,9 +7,8 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT `Name`,`ID` FROM `user_data`";
+$sql = "SELECT `Name`,`ID` FROM `user_data` WHERE `Name` = '" . $_POST['UserSearch'] . "' ";
 $result = $conn->query($sql);
-
 echo '<!DOCTYPE html>
 <html lang="en">
 <head>

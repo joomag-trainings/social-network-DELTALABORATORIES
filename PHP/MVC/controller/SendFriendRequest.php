@@ -5,9 +5,7 @@
  * Date: 7/26/2017
  * Time: 2:19 PM
  */
-
 namespace Controller;
-
 
 class SendFriendRequest
 {
@@ -23,16 +21,15 @@ class SendFriendRequest
             die("Connection failed: " . $conn->connect_error);
         }
 
-        echo 'Something';
-
         $sql = 'INSERT INTO `notifications`(`UserID`, `Notification_Content`, `Notification_Status`) 
                 VALUES ("'.$_POST['RequestReciever'].'" , " A Person Sent You A Friend Request" , "0")';
+
         $conn->query($sql);
+
         if ($conn->query($sql) === TRUE) {
             echo "New record created successfully";
         }
     }
-
 }
 
 $SendRequest = new SendFriendRequest();
