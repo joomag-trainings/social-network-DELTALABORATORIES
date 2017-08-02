@@ -8,7 +8,6 @@
 
 namespace Controller;
 
-
 class UploadController
 {
     public function UploadFile()

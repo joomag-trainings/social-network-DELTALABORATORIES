@@ -34,7 +34,7 @@ if (password_verify($_POST['logInPASSWORD'], $row['Password_Hash']) === true) {
     $_SESSION['ID'] = $row['ID'];
     $_SESSION['Username'] = $UserName;
     $_SESSION['LoggedIn'] = true;
-    header("Location:../timeline_page.html");
+    header("Location:../timeline_page.php");
 
 
 } else {

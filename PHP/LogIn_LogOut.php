@@ -41,7 +41,7 @@ class LogIn
                     var_dump(password_verify($passwordHashed, $passwordStored));
 
                     if (password_verify($password, $passwordStored) == true) {
-                        header("Location:../timeline_page.html");
+                        header("Location:../timeline_page.php");
                     } else {
                         echo 'Wrong Email or Password';
                     }

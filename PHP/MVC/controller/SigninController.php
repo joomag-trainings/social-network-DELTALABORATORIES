@@ -7,50 +7,63 @@
  */
 namespace Controller;
 
+use \Slim\Http\Response;
+use \Slim\Container;
+
 class SigninController
-{   //TODO Make paths as new methods for objects
-    //TODO Make new static paths
-    const accountDatabaseLocation = '../../../Database/userInfo.txt';
-    public function Validation()
+{
+    /**
+     * Container
+     * @var
+     */
+    private $container;
+
+    /**
+     * SigninController constructor.
+     * @param $container
+     */
+    public function __construct($container)
     {
-        if (preg_match("/^[ ]*$/",$_POST['logInEMAIL']) || preg_match("/^[ ]*$/",$_POST['logInPASSWORD'])) {
-            echo 'Something Went Wrong';
+        $this->container = $container;
+    }
+
+    public function validation (\Slim\Http\Request $request, Response $response) {
+
+
+        require '../config/db.config.php';
+
+        $conn = new \mysqli($dbHost, $dbUser, $dbPass, $dbName);
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
         }
 
-        elseif ($_POST['logInEMAIL'] == null && $_POST['logInPASSWORD'] == null){
-            echo 'Something Went aWFULL';
+        $sql = "SELECT * FROM `user_data` WHERE `E-Mail` = '" . $_GET['logInEMAIL'] . "'";
+        $result = $conn->query($sql);
+        $row = $result->fetch_assoc();
+        $echo = password_verify($_GET['logInPASSWORD'], $row['Password_Hash']);
+        $password = $_GET['logInPASSWORD'];
+        $options = [
+            'cost' => 12,
+        ];
+        $passwordHashed = password_hash($password, PASSWORD_BCRYPT, $options);
+        if (password_verify($_GET['logInPASSWORD'], $row['Password_Hash']) === true) {
+            $UsersName = $row['Name'];
+            $UsersName = strtolower($UsersName);
+            $UsersLastName = $row['LastName'];
+            $UsersLastName = strtolower($UsersLastName);
+            $UserName = "@" . substr($UsersName, 0 , 1) . $UsersLastName;
+            session_start();
+            $_SESSION['Name'] = $row['Name'];
+            $_SESSION['LastName'] = $row['LastName'];
+            $_SESSION['ID'] = $row['ID'];
+            $_SESSION['Username'] = $UserName;
+            $_SESSION['LoggedIn'] = true;
+            header("Location:../../../../timeline_page.php");
+            die('Here');
+
+        } else {
+            echo "Wrong Login Or Password";
         }
-        else{
-            $EMail = $_POST['logInEMAIL'];
-            echo $_POST['logInEMAIL'];
-            $accountDatabase = self::accountDatabaseLocation ;
-            $accountData = fopen($accountDatabase, 'r');
-
-            while (!feof($accountData)) {
-                $account = fgets($accountData);
-                echo strpos($account, $EMail);
-
-                if (strpos($account, $EMail) == false) {
-                    echo 'Wrong E-Mail Or Password';
-                } else {
-                    $password = $_POST['logInPASSWORD'];
-                    $options = [
-                        'cost' => 12,
-                    ];
-                    $passwordHashed = password_hash($password, PASSWORD_BCRYPT, $options);
-                    $passwordStored = substr($account, -62, 60);
-                    echo '</br>'.$passwordStored;
-                    var_dump($passwordStored);
-                    var_dump(password_verify($passwordHashed, $passwordStored));
-
-                    if (password_verify($password, $passwordStored) == true) {
-                        header("Location:../../../timeline_page.html");
-                    } else {
-                        echo 'Wrong Email or Password';
-                    }
-                }
-            }
-            fclose($accountData);
-        }
+        $conn->close();
     }
 }

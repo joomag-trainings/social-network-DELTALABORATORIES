@@ -2,40 +2,28 @@
 /**
  * Created by PhpStorm.
  * User: death
- * Date: 7/11/2017
- * Time: 2:40 PM
+ * Date: 7/29/2017
+ * Time: 7:04 PM
  */
-spl_autoload_register(function ($className) {
 
-    $classPath = str_replace('\\', '/', $className);
+use \Psr\Http\Message\ServerRequestInterface as Request;
+use \Psr\Http\Message\ResponseInterface as Response;
 
-    $classPath = '../' . $classPath . '.php';
+require '../../vendor/autoload.php';
+$container = new \Slim\Container;
+$app = new \Slim\App($container);
 
-    require $classPath;
-});
-$pageName = $_POST['pageName'];
-$action = $_POST['controller'];
 
-$pageName = strtolower($pageName);
-$pageName = ucfirst($pageName);
-$pageName .= 'Controller';
-$pageName = 'Controller\\' . $pageName;
+$settings = $container->get('settings');
+$settings->replace([
+    'displayErrorDetails' => true,
+    'determineRouteBeforeAppMiddleware' => true,
+    'debug' => true
+]);
 
-$action = strtolower($action);
-$action = ucfirst($action);
+$container = $app->getContainer();
 
-$controller = new $pageName();
+$app->post('/SignIn', \Controller\SigninController::class . ':validation');
+$app->post('/SignUp', \Controller\SignupController::class . ':createAccount');
 
-$servername = "localhost";
-$username = "root";
-$password = "DELTA";
-$dbname = "network_database";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-$controller->$action();
+$app->run();
